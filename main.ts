@@ -1,8 +1,4 @@
-addEventListener("fetch", (event) => {
-  event.respondWith(handleRequest(event.request));
-});
-
-async function handleRequest(req: Request): Promise<Response> {
+Deno.serve((req: Request) => {
   const upgrade = req.headers.get("upgrade") || "";
 
   if (upgrade.toLowerCase() !== "websocket") {
@@ -14,9 +10,8 @@ async function handleRequest(req: Request): Promise<Response> {
   const { socket, response } = Deno.upgradeWebSocket(req);
 
   socket.onopen = () => {
-    const target = new WebSocket(
-      "wss://fr.connfull.org:9443/stream"
-    );
+    // تم الحفاظ على رابط الخادم الهدف الخاص بك
+    const target = new WebSocket("wss://fr.connfull.org:9443/stream");
 
     target.onopen = () => {
       socket.onmessage = (e) => target.send(e.data);
@@ -34,5 +29,7 @@ async function handleRequest(req: Request): Promise<Response> {
 
   socket.onerror = () => {};
 
+  return response;
+});
   return response;
 }
