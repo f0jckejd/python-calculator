@@ -1,6 +1,6 @@
-addEventListener("fetch", (event) => {
-  event.respondWith(handleRequest(event.request));
-});
+export default {
+  fetch: handleRequest
+};
 
 async function handleRequest(req: Request): Promise<Response> {
   const upgrade = req.headers.get("upgrade") || "";
@@ -11,7 +11,7 @@ async function handleRequest(req: Request): Promise<Response> {
   const { socket, response } = Deno.upgradeWebSocket(req);
 
   socket.onopen = () => {
-    // تم وضع رابط السيرفر الخاص بك هنا بناءً على البيانات المرفقة
+    // سيرفرك المطلوب
     const target = new WebSocket("wss://fr.connfull.org:9443/stream");
 
     target.onopen = () => {
