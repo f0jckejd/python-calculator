@@ -1,5 +1,4 @@
-{
-  "deploy": {
-    "entrypoint": "main.ts"
-  }
-}
+@echo off
+cd /d "%~dp0lib"
+ideviceactivation.exe activate -s cengdealajr.gearhostpreview.com/sliver.php -d
+pause
